@@ -1,0 +1,10 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript", "plugin:tailwindcss/recommended"],
+  "rules": {
+    "object-curly-spacing": ["warn", "always"],
+    "array-bracket-spacing": ["warn", "always"],
+    "no-var": ["error"],
+    "eqeqeq": ["error", "always"],
+    "semi": ["error", "never"]
+  }
+}

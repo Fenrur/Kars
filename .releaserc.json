@@ -1,0 +1,22 @@
+{
+  "branches": ["main"],
+  "repositoryUrl": "git@github.com:Fenrur/template.git",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "./CHANGELOG.md"
+      }
+    ],
+    "@semantic-release/github",
+    "./release-version-plugin.js",
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["./CHANGELOG.md", "./VERSION", "./template-backend/gradle.properties", "./template-frontend/package.json"]
+      }
+    ]
+  ]
+}

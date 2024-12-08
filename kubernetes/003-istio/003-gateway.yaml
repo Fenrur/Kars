@@ -1,0 +1,53 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+  namespace: istio-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: istio
+  listeners:
+#    - name: http
+#      hostname: "*.template.tinnirello-livio.me"
+#      protocol: HTTP
+#      port: 80
+#      allowedRoutes:
+#        namespaces:
+#          from: All
+    - name: https
+      hostname: "*.template.tinnirello-livio.me"
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: letsencrypt-gateway
+            kind: Secret
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-dev
+      hostname: "*.dev.template.tinnirello-livio.me"
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: letsencrypt-gateway
+            kind: Secret
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-base
+      hostname: "template.tinnirello-livio.me"
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: letsencrypt-gateway-base
+            kind: Secret
+      allowedRoutes:
+        namespaces:
+          from: All

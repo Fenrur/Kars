@@ -1,0 +1,14 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  namespace: prod
+  name: pg-cluster
+spec:
+  instances: 1
+
+  storage:
+    storageClass: local-path
+    size: 40Gi
+
+  monitoring:
+    enablePodMonitor: true

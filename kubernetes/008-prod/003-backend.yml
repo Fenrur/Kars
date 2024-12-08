@@ -1,0 +1,213 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    reloader.stakater.com/auto: "true"
+    app.quarkus.io/quarkus-version: 3.16.3
+    app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+  labels:
+    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/managed-by: quarkus
+  name: template-backend
+  namespace: prod
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/version: 0.0.1
+  name: view-jobs
+  namespace: prod
+rules:
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+    verbs:
+      - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/version: 0.0.1
+  name: template-backend-view-jobs
+  namespace: prod
+roleRef:
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+  name: view-jobs
+subjects:
+  - kind: ServiceAccount
+    apiGroup: ""
+    name: template-backend
+    namespace: prod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    reloader.stakater.com/auto: "true"
+    app.quarkus.io/quarkus-version: 3.16.3
+    app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+  labels:
+    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/managed-by: quarkus
+  name: template-backend
+  namespace: prod
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: template-backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    reloader.stakater.com/auto: "true"
+    app.quarkus.io/quarkus-version: 3.16.3
+    app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+  labels:
+    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/managed-by: quarkus
+  name: template-backend
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: template-backend
+  template:
+    metadata:
+      annotations:
+        reloader.stakater.com/auto: "true"
+        app.quarkus.io/quarkus-version: 3.16.3
+        app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+      labels:
+        app.kubernetes.io/managed-by: quarkus
+        app.kubernetes.io/name: template-backend
+      namespace: prod
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: QUARKUS_FLYWAY_ENABLED
+              value: "false"
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: pg-cluster-app
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: pg-cluster-app
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: jdbc-uri
+                  name: pg-cluster-app
+          image: ghcr.io/fenrur/template/template-backend:1.4.4
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/live
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: template-backend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          startupProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/started
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+      imagePullSecrets:
+        - name: ghcr
+      initContainers:
+        - args:
+            - job
+            - template-backend-flyway-init
+          image: groundnuty/k8s-wait-for:no-root-v1.7
+          imagePullPolicy: IfNotPresent
+          name: wait-for-flyway
+      serviceAccountName: template-backend
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: template-backend-flyway-init
+  namespace: prod
+spec:
+  completionMode: NonIndexed
+  template:
+    metadata:
+      namespace: prod
+    spec:
+      containers:
+        - env:
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: pg-cluster-app
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: pg-cluster-app
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: jdbc-uri
+                  name: pg-cluster-app
+            - name: QUARKUS_INIT_AND_EXIT
+              value: "true"
+            - name: QUARKUS_FLYWAY_ENABLED
+              value: "true"
+          image: ghcr.io/fenrur/template/template-backend:1.4.4
+          name: template-backend-flyway-init
+      imagePullSecrets:
+        - name: ghcr
+      restartPolicy: OnFailure
+      serviceAccountName: template-backend

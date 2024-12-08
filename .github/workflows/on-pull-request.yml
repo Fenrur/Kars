@@ -1,0 +1,160 @@
+name: Pull Request Action
+on: pull_request
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults: 
+      run:
+        working-directory: ./template-backend
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Read Version and Set Environment Variables
+      id: version
+      run: |
+        export VERSION=$(cat ../VERSION)
+        export SHORT_SHA=$(echo ${{ github.sha }} | head -c 8)
+        export BRANCH_NAME=$(echo ${{ github.head_ref }} | sed 's/[^a-zA-Z0-9]/-/g')
+        export PR_TAG=$VERSION-$BRANCH_NAME-$SHORT_SHA
+        
+        echo "Version: $VERSION"
+        echo "Short SHA: $SHORT_SHA"
+        echo "Branch Name: $BRANCH_NAME"
+        echo "PR Tag: $PR_TAG"
+        
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+        echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+        echo "PR_TAG=$PR_TAG" >> $GITHUB_ENV
+        
+    - name: Change project version
+      run: echo "PROJECT_VERSION=$PR_TAG" >> $GITHUB_ENV
+        
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: fenrur
+        password: ${{ secrets.GITHUB_TOKEN }}    
+        
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 21
+        cache: gradle
+    
+    - name: Generate Jooq
+      run: ./gradlew jooqCodegen 
+    
+    - name: Build
+      run: ./gradlew build -x test 
+    
+    - name: Test
+      run: ./gradlew test 
+      
+    - name: Build Docker Image & Push to GitHub Container Registry
+      env:
+        QUARKUS_CONTAINER_IMAGE_BUILD: true
+        QUARKUS_CONTAINER_IMAGE_PUSH: true
+      run: ./gradlew build 
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults: 
+      run:
+        working-directory: ./template-frontend
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Read Version and Set Environment Variables
+      id: version
+      run: |
+        export VERSION=$(cat ../VERSION)
+        export SHORT_SHA=$(echo ${{ github.sha }} | head -c 8)
+        export BRANCH_NAME=$(echo ${{ github.head_ref }} | sed 's/[^a-zA-Z0-9]/-/g')
+        export PR_TAG=$VERSION-$BRANCH_NAME-$SHORT_SHA
+
+        echo "Version: $VERSION"
+        echo "Short SHA: $SHORT_SHA"
+        echo "Branch Name: $BRANCH_NAME"
+        echo "PR Tag: $PR_TAG"
+
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+        echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+        echo "PR_TAG=$PR_TAG" >> $GITHUB_ENV
+        
+    - name: Change project version
+      run: echo "PROJECT_VERSION=$PR_TAG" >> $GITHUB_ENV
+        
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: fenrur
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: lts/iron
+        cache: 'npm'
+        cache-dependency-path: ./template-frontend/package-lock.json
+
+    - name: Restore cache next build
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.npm
+          ${{ github.ref }}
+          ${{ github.workspace }}/template-frontend/.next/cache
+        key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+        restore-keys: |
+          ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+    - name: Change Frontend package.json version
+      run: |
+        sed -i "s/\"version\": \".*\"/\"version\": \"${{ env.NEW_RELEASE_VERSION }}\"/g" ./package.json
+
+    - name: Install dependencies Frontend
+      run: npm install
+
+    - name: Build Frontend
+      run: npm run build
+      
+    - name: Build Docker image
+      uses: mamezou-tech/buildpacks-action@v0.7.0
+      with:
+        image: ghcr.io/fenrur/template/template-frontend
+        tag: ${{ env.PROJECT_VERSION }}
+        builder: paketobuildpacks/builder-jammy-base
+        buildpacks: paketo-buildpacks/nodejs
+        env: 'BP_NODE_VERSION=v22.11.0 NODE_ENV=production'
+        path: './template-frontend'
+    
+    - name: Push to GitHub Container Registry
+      run: docker push ghcr.io/fenrur/template/template-frontend:${{ env.PROJECT_VERSION }}
+
+    #    - name: Test Frontend
+    #      working-directory: "./template-frontend"
+    #      run: npm run test

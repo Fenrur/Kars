@@ -1,0 +1,48 @@
+groupName: acme.mycompany.example
+
+configVersion: 0.0.1
+
+certManager:
+  namespace: cert-manager
+  serviceAccountName: cert-manager
+
+issuers:
+  - name: letsencrypt-prod
+    acmeServerUrl: https://acme-v02.api.letsencrypt.org/directory
+    create: true
+    cnameStrategy: None
+    email: tinnirellolivio@gmail.com
+    ovhEndpointName: ovh-eu
+    kind: ClusterIssuer
+    ovhAuthenticationRef:
+      applicationKeyRef:
+        name: ovh-credentials
+        key: applicationKey
+      applicationSecretRef:
+        name: ovh-credentials
+        key: applicationSecret
+      consumerKeyRef:
+        name: ovh-credentials
+        key: consumerKey
+
+  - name: letsencrypt-staging
+    acmeServerUrl: https://acme-staging-v02.api.letsencrypt.org/directory
+    create: true
+    cnameStrategy: None
+    email: tinnirellolivio@gmail.com
+    ovhEndpointName: ovh-eu
+    kind: ClusterIssuer
+    ovhAuthenticationRef:
+      applicationKeyRef:
+        name: ovh-credentials
+        key: applicationKey
+      applicationSecretRef:
+        name: ovh-credentials
+        key: applicationSecret
+      consumerKeyRef:
+        name: ovh-credentials
+        key: consumerKey
+  
+rbac:
+  roleType: ClusterRole
+

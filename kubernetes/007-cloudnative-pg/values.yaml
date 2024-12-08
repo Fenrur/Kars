@@ -1,0 +1,6 @@
+monitoring:
+  podMonitorEnabled: true
+#  grafanaDashboard: true
+#  grafana:
+#    create: true
+#    namespace: "monitoring"

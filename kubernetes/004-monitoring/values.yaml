@@ -1,0 +1,29 @@
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        metadata:
+          name: data
+        spec:
+          storageClassName: local-path
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 30Gi
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        metadata:
+          name: data
+        spec:
+          storageClassName: local-path
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 5Gi
+
+prometheus-node-exporter:
+  hostRootFsMount:
+    enabled: false
