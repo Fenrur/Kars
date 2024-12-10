@@ -9,14 +9,14 @@ spec:
       sectionName: https-dev
       namespace: istio-ingress
   hostnames:
-    - www.dev.template.tinnirello-livio.me
+    - www.dev.kars.tinnirello-livio.me
   rules:
     - matches:
         - path:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: template-frontend
+        - name: kars-frontend
           port: 80
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -30,12 +30,12 @@ spec:
       sectionName: https
       namespace: istio-ingress
   hostnames:
-    - dev.template.tinnirello-livio.me
+    - dev.kars.tinnirello-livio.me
   rules:
     - matches:
         - path:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: template-frontend
+        - name: kars-frontend
           port: 80

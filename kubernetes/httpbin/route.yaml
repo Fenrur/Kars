@@ -9,7 +9,7 @@ spec:
       sectionName: https
       namespace: istio-ingress
   hostnames:
-    - httpbin.template.tinnirello-livio.me
+    - httpbin.kars.tinnirello-livio.me
   rules:
     - matches:
         - path:

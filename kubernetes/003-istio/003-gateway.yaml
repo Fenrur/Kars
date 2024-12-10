@@ -16,7 +16,7 @@ spec:
 #        namespaces:
 #          from: All
     - name: https
-      hostname: "*.template.tinnirello-livio.me"
+      hostname: "*.kars.tinnirello-livio.me"
       port: 443
       protocol: HTTPS
       tls:
@@ -28,7 +28,7 @@ spec:
         namespaces:
           from: All
     - name: https-dev
-      hostname: "*.dev.template.tinnirello-livio.me"
+      hostname: "*.dev.kars.tinnirello-livio.me"
       port: 443
       protocol: HTTPS
       tls:
@@ -40,7 +40,7 @@ spec:
         namespaces:
           from: All
     - name: https-base
-      hostname: "template.tinnirello-livio.me"
+      hostname: "kars.tinnirello-livio.me"
       port: 443
       protocol: HTTPS
       tls:

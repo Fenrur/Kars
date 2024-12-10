@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults: 
       run:
-        working-directory: ./template-backend
+        working-directory: ./kars-backend
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults: 
       run:
-        working-directory: ./template-frontend
+        working-directory: ./kars-frontend
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -119,7 +119,7 @@ jobs:
       with:
         node-version: lts/iron
         cache: 'npm'
-        cache-dependency-path: ./template-frontend/package-lock.json
+        cache-dependency-path: ./kars-frontend/package-lock.json
 
     - name: Restore cache next build
       uses: actions/cache@v4
@@ -127,7 +127,7 @@ jobs:
         path: |
           ~/.npm
           ${{ github.ref }}
-          ${{ github.workspace }}/template-frontend/.next/cache
+          ${{ github.workspace }}/kars-frontend/.next/cache
         key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
         restore-keys: |
           ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
@@ -145,15 +145,15 @@ jobs:
     - name: Build Docker image
       uses: mamezou-tech/buildpacks-action@v0.7.0
       with:
-        image: ghcr.io/fenrur/template/template-frontend
+        image: ghcr.io/fenrur/kars/kars-frontend
         tag: ${{ env.PROJECT_VERSION }}
         builder: paketobuildpacks/builder-jammy-base
         buildpacks: paketo-buildpacks/nodejs
         env: 'BP_NODE_VERSION=v22.11.0 NODE_ENV=production'
-        path: './template-frontend'
+        path: './kars-frontend'
     
     - name: Push to GitHub Container Registry
-      run: docker push ghcr.io/fenrur/template/template-frontend:${{ env.PROJECT_VERSION }}
+      run: docker push ghcr.io/fenrur/kars/kars-frontend:${{ env.PROJECT_VERSION }}
 
     #    - name: Test Frontend
     #      working-directory: "./template-frontend"

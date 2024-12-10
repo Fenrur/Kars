@@ -1,6 +1,6 @@
 {
   "branches": ["main"],
-  "repositoryUrl": "git@github.com:Fenrur/template.git",
+  "repositoryUrl": "git@github.com:Fenrur/kars.git",
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
@@ -15,7 +15,7 @@
     [
       "@semantic-release/git",
       {
-        "assets": ["./CHANGELOG.md", "./VERSION", "./template-backend/gradle.properties", "./template-frontend/package.json"]
+        "assets": ["./CHANGELOG.md", "./VERSION", "./kars-backend/gradle.properties", "./kars-frontend/package.json"]
       }
     ]
   ]

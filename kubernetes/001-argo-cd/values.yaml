@@ -3,7 +3,7 @@ configs:
     server.insecure: true
 
 global:
-  domain: "argo.template.tinnirello-livio.me"
+  domain: "argo.kars.tinnirello-livio.me"
 
 redis-ha:
   enabled: false

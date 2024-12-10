@@ -3,10 +3,10 @@ kind: Service
 metadata:
   annotations:
     reloader.stakater.com/auto: "true"
-    app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+    app.quarkus.io/vcs-uri: https://github.com/Fenrur/kars.git
   labels:
-    app.kubernetes.io/name: template-frontend
-  name: template-frontend
+    app.kubernetes.io/name: kars-frontend
+  name: kars-frontend
   namespace: dev
 spec:
   ports:
@@ -15,7 +15,7 @@ spec:
       protocol: TCP
       targetPort: 8080
   selector:
-    app.kubernetes.io/name: template-frontend
+    app.kubernetes.io/name: kars-frontend
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -23,23 +23,23 @@ kind: Deployment
 metadata:
   annotations:
     reloader.stakater.com/auto: "true"
-    app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+    app.quarkus.io/vcs-uri: https://github.com/Fenrur/kars.git
   labels:
-    app.kubernetes.io/name: template-frontend
-  name: template-frontend
+    app.kubernetes.io/name: kars-frontend
+  name: kars-frontend
   namespace: dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: template-frontend
+      app.kubernetes.io/name: kars-frontend
   template:
     metadata:
       annotations:
         reloader.stakater.com/auto: "true"
-        app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+        app.quarkus.io/vcs-uri: https://github.com/Fenrur/kars.git
       labels:
-        app.kubernetes.io/name: template-frontend
+        app.kubernetes.io/name: kars-frontend
       namespace: dev
     spec:
       containers:
@@ -51,10 +51,10 @@ spec:
             - name: PORT
               value: "8080"
             - name: BACKEND_URL
-              value: https://api.dev.template.tinnirello-livio.me
-          image: ghcr.io/fenrur/template/template-frontend:1.4.4-dev
+              value: https://api.dev.kars.tinnirello-livio.me
+          image: ghcr.io/fenrur/kars/kars-frontend:1.0.0-dev
           imagePullPolicy: Always
-          name: template-frontend
+          name: kars-frontend
           ports:
             - containerPort: 8080
               name: http

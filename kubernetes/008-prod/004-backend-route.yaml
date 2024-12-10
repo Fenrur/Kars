@@ -9,12 +9,12 @@ spec:
       sectionName: https
       namespace: istio-ingress
   hostnames:
-    - api.template.tinnirello-livio.me
+    - api.kars.tinnirello-livio.me
   rules:
     - matches:
         - path:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: template-backend
+        - name: kars-backend
           port: 80

@@ -5,18 +5,18 @@ metadata:
   annotations:
     reloader.stakater.com/auto: "true"
     app.quarkus.io/quarkus-version: 3.16.3
-    app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+    app.quarkus.io/vcs-uri: https://github.com/Fenrur/kars.git
   labels:
-    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/name: kars-backend
     app.kubernetes.io/managed-by: quarkus
-  name: template-backend
+  name: kars-backend
   namespace: prod
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
-    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/name: kars-backend
     app.kubernetes.io/version: 0.0.1
   name: view-jobs
   namespace: prod
@@ -32,9 +32,9 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
-    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/name: kars-backend
     app.kubernetes.io/version: 0.0.1
-  name: template-backend-view-jobs
+  name: kars-backend-view-jobs
   namespace: prod
 roleRef:
   kind: Role
@@ -43,7 +43,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     apiGroup: ""
-    name: template-backend
+    name: kars-backend
     namespace: prod
 ---
 apiVersion: v1
@@ -52,11 +52,11 @@ metadata:
   annotations:
     reloader.stakater.com/auto: "true"
     app.quarkus.io/quarkus-version: 3.16.3
-    app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+    app.quarkus.io/vcs-uri: https://github.com/Fenrur/kars.git
   labels:
-    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/name: kars-backend
     app.kubernetes.io/managed-by: quarkus
-  name: template-backend
+  name: kars-backend
   namespace: prod
 spec:
   ports:
@@ -65,7 +65,7 @@ spec:
       protocol: TCP
       targetPort: 8080
   selector:
-    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/name: kars-backend
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -74,26 +74,26 @@ metadata:
   annotations:
     reloader.stakater.com/auto: "true"
     app.quarkus.io/quarkus-version: 3.16.3
-    app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+    app.quarkus.io/vcs-uri: https://github.com/Fenrur/kars.git
   labels:
-    app.kubernetes.io/name: template-backend
+    app.kubernetes.io/name: kars-backend
     app.kubernetes.io/managed-by: quarkus
-  name: template-backend
+  name: kars-backend
   namespace: prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: template-backend
+      app.kubernetes.io/name: kars-backend
   template:
     metadata:
       annotations:
         reloader.stakater.com/auto: "true"
         app.quarkus.io/quarkus-version: 3.16.3
-        app.quarkus.io/vcs-uri: https://github.com/Fenrur/template.git
+        app.quarkus.io/vcs-uri: https://github.com/Fenrur/kars.git
       labels:
         app.kubernetes.io/managed-by: quarkus
-        app.kubernetes.io/name: template-backend
+        app.kubernetes.io/name: kars-backend
       namespace: prod
     spec:
       containers:
@@ -119,7 +119,7 @@ spec:
                 secretKeyRef:
                   key: jdbc-uri
                   name: pg-cluster-app
-          image: ghcr.io/fenrur/template/template-backend:1.4.4
+          image: ghcr.io/fenrur/kars/kars-backend:1.0.0
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
@@ -131,7 +131,7 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 10
-          name: template-backend
+          name: kars-backend
           ports:
             - containerPort: 8080
               name: http
@@ -167,16 +167,16 @@ spec:
       initContainers:
         - args:
             - job
-            - template-backend-flyway-init
+            - kars-backend-flyway-init
           image: groundnuty/k8s-wait-for:no-root-v1.7
           imagePullPolicy: IfNotPresent
           name: wait-for-flyway
-      serviceAccountName: template-backend
+      serviceAccountName: kars-backend
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: template-backend-flyway-init
+  name: kars-backend-flyway-init
   namespace: prod
 spec:
   completionMode: NonIndexed
@@ -205,9 +205,9 @@ spec:
               value: "true"
             - name: QUARKUS_FLYWAY_ENABLED
               value: "true"
-          image: ghcr.io/fenrur/template/template-backend:1.4.4
-          name: template-backend-flyway-init
+          image: ghcr.io/fenrur/kars/kars-backend:1.0.0
+          name: kars-backend-flyway-init
       imagePullSecrets:
         - name: ghcr
       restartPolicy: OnFailure
-      serviceAccountName: template-backend
+      serviceAccountName: kars-backend
