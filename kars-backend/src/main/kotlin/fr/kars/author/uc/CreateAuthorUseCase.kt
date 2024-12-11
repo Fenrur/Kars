@@ -1,6 +1,6 @@
-package fr.exemple.author.uc
+package fr.kars.author.uc
 
-import fr.exemple.author.AuthorId
+import fr.kars.author.AuthorId
 
 interface CreateAuthorUseCase {
     fun create(firstName: String, lastName: String): AuthorId

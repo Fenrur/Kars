@@ -1,8 +1,8 @@
-package fr.exemple.author.uc.impl
+package fr.kars.author.uc.impl
 
-import fr.exemple.author.Author
-import fr.exemple.author.uc.FindAllAuthorUseCase
-import fr.livio.jooq.tables.daos.AuthorsDao
+import fr.kars.author.Author
+import fr.kars.author.uc.FindAllAuthorUseCase
+import fr.kars.jooq.tables.daos.AuthorsDao
 import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped

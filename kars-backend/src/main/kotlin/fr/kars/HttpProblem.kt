@@ -1,4 +1,4 @@
-package fr.exemple
+package fr.kars
 
 import io.quarkiverse.resteasy.problem.HttpProblem
 import jakarta.ws.rs.core.Response

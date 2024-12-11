@@ -1,10 +1,10 @@
-package fr.exemple.author
+package fr.kars.author
 
-import fr.exemple.author.uc.CreateAuthorUseCase
-import fr.exemple.author.uc.DeleteAuthorUseCase
-import fr.exemple.author.uc.FindAllAuthorUseCase
-import fr.exemple.author.uc.FindByIdAuthorUseCase
-import fr.exemple.author.uc.UpdateAuthorUseCase
+import fr.kars.author.uc.CreateAuthorUseCase
+import fr.kars.author.uc.DeleteAuthorUseCase
+import fr.kars.author.uc.FindAllAuthorUseCase
+import fr.kars.author.uc.FindByIdAuthorUseCase
+import fr.kars.author.uc.UpdateAuthorUseCase
 import io.smallrye.common.annotation.RunOnVirtualThread
 import jakarta.ws.rs.Consumes
 import jakarta.ws.rs.DELETE

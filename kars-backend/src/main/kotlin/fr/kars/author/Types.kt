@@ -1,4 +1,4 @@
-package fr.exemple.author
+package fr.kars.author
 
 typealias AuthorId = Int
 

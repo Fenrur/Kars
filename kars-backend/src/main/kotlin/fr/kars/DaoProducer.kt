@@ -1,7 +1,7 @@
-package fr.exemple
+package fr.kars
 
-import fr.livio.jooq.tables.daos.AuthorsDao
-import fr.livio.jooq.tables.daos.BooksDao
+import fr.kars.jooq.tables.daos.AuthorsDao
+import fr.kars.jooq.tables.daos.BooksDao
 import jakarta.enterprise.inject.Produces
 import org.jooq.Configuration
 

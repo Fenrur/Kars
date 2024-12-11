@@ -1,6 +1,6 @@
-package fr.exemple.author.uc;
+package fr.kars.author.uc;
 
-import fr.exemple.author.Author
+import fr.kars.author.Author
 
 interface FindAllAuthorUseCase {
 

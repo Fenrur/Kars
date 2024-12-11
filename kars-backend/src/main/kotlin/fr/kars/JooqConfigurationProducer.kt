@@ -1,4 +1,4 @@
-package fr.exemple
+package fr.kars
 
 import io.agroal.api.AgroalDataSource
 import jakarta.enterprise.inject.Produces

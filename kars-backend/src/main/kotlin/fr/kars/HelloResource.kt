@@ -1,4 +1,4 @@
-package fr.exemple
+package fr.kars
 
 import io.smallrye.common.annotation.RunOnVirtualThread
 import jakarta.ws.rs.DELETE

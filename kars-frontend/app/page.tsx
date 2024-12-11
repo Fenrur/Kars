@@ -7,7 +7,7 @@ import { useGetHello, usePostHello } from "@/http/hooks"
 export default function Home() {
   const [ count, setCount ] = useState(0)
   const { isGetHelloLoading, getHelloData } = useGetHello()
-  const { isPostHelloMutating, postHelloData, postHello } = usePostHello()
+  const { isPostHelloLoading, postHelloData, postHello } = usePostHello()
 
   const handleClickPost = () => {
     void postHello()
@@ -26,7 +26,7 @@ export default function Home() {
       >
         Post
       </Button>
-      {isPostHelloMutating ? <p>Loading...</p> : <p>{postHelloData}</p>}
+      {isPostHelloLoading ? <p>Loading...</p> : <p>{postHelloData}</p>}
     </div>
   )
 }

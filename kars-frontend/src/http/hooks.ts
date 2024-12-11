@@ -69,7 +69,7 @@ export function usePostHello() {
   return {
     postHello: trigger,
     postHelloData: data,
-    isPostHelloMutating: isMutating || isBackendUrlLoading,
+    isPostHelloLoading: isMutating || isBackendUrlLoading,
     postHelloError: error || backendUrlError,
   }
 }

@@ -144,7 +144,7 @@ jooq {
                 kotlinDefaultedNullableRecordAttributes = false
             }
             target {
-                packageName = 'fr.livio.jooq'
+                packageName = 'fr.kars.jooq'
                 directory = 'build/generated-src/jooq'
             }
         }

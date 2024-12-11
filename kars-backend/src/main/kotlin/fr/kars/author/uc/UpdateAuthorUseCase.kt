@@ -1,7 +1,7 @@
-package fr.exemple.author.uc
+package fr.kars.author.uc
 
-import fr.exemple.author.Author
-import fr.exemple.author.AuthorId
+import fr.kars.author.Author
+import fr.kars.author.AuthorId
 
 interface UpdateAuthorUseCase {
     fun update(authorId: AuthorId, firstName: String?, lastName: String?): Author

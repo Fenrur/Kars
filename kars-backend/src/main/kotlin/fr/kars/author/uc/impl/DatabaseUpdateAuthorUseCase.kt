@@ -1,9 +1,9 @@
-package fr.exemple.author.uc.impl
+package fr.kars.author.uc.impl
 
-import fr.exemple.author.Author
-import fr.exemple.author.AuthorId
-import fr.exemple.author.uc.UpdateAuthorUseCase
-import fr.livio.jooq.tables.references.AUTHORS
+import fr.kars.author.Author
+import fr.kars.author.AuthorId
+import fr.kars.author.uc.UpdateAuthorUseCase
+import fr.kars.jooq.tables.references.AUTHORS
 import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 import org.jooq.Field
