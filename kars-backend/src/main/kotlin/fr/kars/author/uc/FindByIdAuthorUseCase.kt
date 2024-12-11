@@ -4,5 +4,5 @@ import fr.kars.author.Author
 import fr.kars.author.AuthorId
 
 interface FindByIdAuthorUseCase {
-    fun findById(authorId: AuthorId): Author?
+    operator fun invoke(authorId: AuthorId): Author?
 }

@@ -9,15 +9,11 @@ import jakarta.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class DatabaseFindByIdAuthorUseCase(private val authorsDao: AuthorsDao) : FindByIdAuthorUseCase {
     
-    override fun findById(authorId: AuthorId): Author? {
+    override fun invoke(authorId: AuthorId): Author? {
         val author = authorsDao.findById(authorId)
         
         return author?.let {
-            Author(
-                id = it.id!!,
-                firstName = it.firstName,
-                lastName = it.lastName
-            )
+            Author(it.id!!, it.firstName, it.lastName)
         }
     }
     

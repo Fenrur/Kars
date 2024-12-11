@@ -4,5 +4,5 @@ import fr.kars.author.Author
 import fr.kars.author.AuthorId
 
 interface UpdateAuthorUseCase {
-    fun update(authorId: AuthorId, firstName: String?, lastName: String?): Author
+    operator fun invoke(authorId: AuthorId, firstName: String?, lastName: String?): Author
 }

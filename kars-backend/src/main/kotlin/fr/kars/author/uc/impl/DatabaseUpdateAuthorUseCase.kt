@@ -13,7 +13,9 @@ class DatabaseUpdateAuthorUseCase(
     private val dslContext: DSLContext
 ) : UpdateAuthorUseCase {
 
-    override fun update(authorId: AuthorId, firstName: String?, lastName: String?): Author {
+    class DatabaseUpdateAuthorUseCaseException(message: String) : Exception(message)
+    
+    override fun invoke(authorId: AuthorId, firstName: String?, lastName: String?): Author {
         val query = dslContext.update(AUTHORS)
         val valuesToUpdate = HashMap<Field<*>, Any>(2)
 
@@ -27,12 +29,12 @@ class DatabaseUpdateAuthorUseCase(
         if (valuesToUpdate.isNotEmpty()) {
             val author = query.set(valuesToUpdate).where(AUTHORS.ID.eq(authorId)).returning().fetchOne()
 
-            author ?: throw Exception("Failed to update author")
+            author ?: throw DatabaseUpdateAuthorUseCaseException("Failed to update author with id $authorId and values $valuesToUpdate")
             return Author(author.id!!, author.firstName, author.lastName)
         } else {
             val author = dslContext.selectFrom(AUTHORS).where(AUTHORS.ID.eq(authorId)).fetchOne()
 
-            author ?: throw Exception("Failed to update author")
+            author ?: throw DatabaseUpdateAuthorUseCaseException("Failed to get author with id $authorId")
             return Author(author.id!!, author.firstName, author.lastName)
         }
     }

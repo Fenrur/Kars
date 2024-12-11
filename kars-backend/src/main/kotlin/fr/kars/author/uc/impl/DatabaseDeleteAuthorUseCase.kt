@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class DatabaseDeleteAuthorUseCase(private val authorsDao: AuthorsDao) : DeleteAuthorUseCase {
     
-    override fun delete(authorId: AuthorId) {
+    override fun invoke(authorId: AuthorId) {
         authorsDao.deleteById(authorId)
     }
 }

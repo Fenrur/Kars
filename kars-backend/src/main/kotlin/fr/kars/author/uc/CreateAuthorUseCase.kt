@@ -3,5 +3,5 @@ package fr.kars.author.uc
 import fr.kars.author.AuthorId
 
 interface CreateAuthorUseCase {
-    fun create(firstName: String, lastName: String): AuthorId
+    operator fun invoke(firstName: String, lastName: String): AuthorId
 }

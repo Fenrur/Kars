@@ -8,13 +8,9 @@ import jakarta.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class DatabaseFindAllAuthorUseCase(private val authorsDao: AuthorsDao) : FindAllAuthorUseCase {
     
-    override fun findAll(): List<Author> {
+    override fun invoke(): List<Author> {
         return authorsDao.findAll().map {
-            Author(
-                id = it.id!!,
-                firstName = it.firstName,
-                lastName = it.lastName
-            )
+            Author(it.id!!, it.firstName, it.lastName)
         }
     }
 }

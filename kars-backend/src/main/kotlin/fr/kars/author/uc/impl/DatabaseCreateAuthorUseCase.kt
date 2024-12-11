@@ -9,7 +9,9 @@ import org.jooq.DSLContext
 @ApplicationScoped
 class DatabaseCreateAuthorUseCase(private val dslContext: DSLContext) : CreateAuthorUseCase {
     
-    override fun create(firstName: String, lastName: String): AuthorId {
+    class DatabaseCreateAuthorUseCaseException(message: String) : Exception(message)
+    
+    override fun invoke(firstName: String, lastName: String): AuthorId {
         val id = dslContext
             .insertInto(AUTHORS, AUTHORS.FIRST_NAME, AUTHORS.LAST_NAME)
             .values(firstName, lastName)
@@ -17,6 +19,6 @@ class DatabaseCreateAuthorUseCase(private val dslContext: DSLContext) : CreateAu
             .fetchOne()
             ?.value1()
         
-        return id ?: throw IllegalStateException("Failed to create author")
+        return id ?: throw DatabaseCreateAuthorUseCaseException("Failed to create author with first name: '$firstName' and last name '$lastName'")
     }
 }

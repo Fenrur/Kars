@@ -3,5 +3,5 @@ package fr.kars.author.uc
 import fr.kars.author.AuthorId
 
 interface DeleteAuthorUseCase {
-    fun delete(authorId: AuthorId)
+    operator fun invoke(authorId: AuthorId)
 }
