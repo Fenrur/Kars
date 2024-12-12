@@ -1,32 +1,36 @@
+CREATE TYPE gender AS ENUM ('male', 'female');
+
+CREATE TYPE role AS ENUM ('user', 'admin');
+
 CREATE TABLE city
 (
-    city_id                    SERIAL,
-    department            VARCHAR(3)   DEFAULT NULL,
-    slug                  VARCHAR(255) DEFAULT NULL UNIQUE,
-    name                  VARCHAR(45)  DEFAULT NULL,
-    simple_name           VARCHAR(45)  DEFAULT NULL,
-    official_name         VARCHAR(45)  DEFAULT NULL,
-    soundex_name          VARCHAR(20)  DEFAULT NULL,
-    metaphone_name        VARCHAR(22)  DEFAULT NULL,
-    postal_code           VARCHAR(255) DEFAULT NULL,
-    commune               VARCHAR(3)   DEFAULT NULL,
-    commune_code          VARCHAR(5) NOT NULL UNIQUE,
-    arrondissement        SMALLINT     DEFAULT NULL,
-    canton                VARCHAR(4)   DEFAULT NULL,
-    amdi                  INTEGER      DEFAULT NULL,
-    population_2010       INTEGER      DEFAULT NULL,
-    population_1999       INTEGER      DEFAULT NULL,
-    population_2012       INTEGER      DEFAULT NULL,
-    density_2010          INTEGER      DEFAULT NULL,
-    area                  REAL         DEFAULT NULL,
-    longitude_deg         REAL         DEFAULT NULL,
-    latitude_deg          REAL         DEFAULT NULL,
-    longitude_grd         VARCHAR(9)   DEFAULT NULL,
-    latitude_grd          VARCHAR(8)   DEFAULT NULL,
-    longitude_dms         VARCHAR(9)   DEFAULT NULL,
-    latitude_dms          VARCHAR(8)   DEFAULT NULL,
-    min_altitude          INTEGER      DEFAULT NULL,
-    max_altitude          INTEGER      DEFAULT NULL,
+    city_id         SERIAL,
+    department      VARCHAR(3)   DEFAULT NULL,
+    slug            VARCHAR(255) DEFAULT NULL UNIQUE,
+    name            VARCHAR(45)  DEFAULT NULL,
+    simple_name     VARCHAR(45)  DEFAULT NULL,
+    official_name   VARCHAR(45)  DEFAULT NULL,
+    soundex_name    VARCHAR(20)  DEFAULT NULL,
+    metaphone_name  VARCHAR(22)  DEFAULT NULL,
+    postal_code     VARCHAR(255) DEFAULT NULL,
+    commune         VARCHAR(3)   DEFAULT NULL,
+    commune_code    VARCHAR(5) NOT NULL UNIQUE,
+    arrondissement  SMALLINT     DEFAULT NULL,
+    canton          VARCHAR(4)   DEFAULT NULL,
+    amdi            INTEGER      DEFAULT NULL,
+    population_2010 INTEGER      DEFAULT NULL,
+    population_1999 INTEGER      DEFAULT NULL,
+    population_2012 INTEGER      DEFAULT NULL,
+    density_2010    INTEGER      DEFAULT NULL,
+    area            REAL         DEFAULT NULL,
+    longitude_deg   REAL         DEFAULT NULL,
+    latitude_deg    REAL         DEFAULT NULL,
+    longitude_grd   VARCHAR(9)   DEFAULT NULL,
+    latitude_grd    VARCHAR(8)   DEFAULT NULL,
+    longitude_dms   VARCHAR(9)   DEFAULT NULL,
+    latitude_dms    VARCHAR(8)   DEFAULT NULL,
+    min_altitude    INTEGER      DEFAULT NULL,
+    max_altitude    INTEGER      DEFAULT NULL,
     PRIMARY KEY (city_id),
     UNIQUE (slug)
 );
@@ -41,9 +45,11 @@ CREATE TABLE party_subtype
 
 CREATE TABLE userr
 (
-    user_id SERIAL,
-    name    VARCHAR(100) NOT NULL,
-    email   VARCHAR(100) NOT NULL,
+    user_id         SERIAL,
+    name            VARCHAR(100) NOT NULL,
+    email           VARCHAR(100) NOT NULL,
+    role            role         NOT NULL,
+    password VARCHAR(255) NOT NULL,
     PRIMARY KEY (user_id),
     UNIQUE (email)
 );
@@ -51,10 +57,10 @@ CREATE TABLE userr
 CREATE TABLE profile
 (
     profile_id SERIAL,
-    born_at    DATE        NOT NULL,
-    gender     VARCHAR(50) NOT NULL,
-    user_id    INTEGER     NOT NULL,
-    city_id    INTEGER     NOT NULL,
+    born_at    DATE    NOT NULL,
+    gender     gender  NOT NULL,
+    user_id    INTEGER NOT NULL,
+    city_id    INTEGER NOT NULL,
     PRIMARY KEY (profile_id),
     UNIQUE (user_id),
     FOREIGN KEY (user_id) REFERENCES userr (user_id),

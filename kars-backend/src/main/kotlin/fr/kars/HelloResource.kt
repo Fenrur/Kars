@@ -1,6 +1,7 @@
 package fr.kars
 
 import io.smallrye.common.annotation.RunOnVirtualThread
+import jakarta.annotation.security.RolesAllowed
 import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.PATCH
@@ -12,8 +13,8 @@ import jakarta.ws.rs.core.MediaType
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
 
 @Path("/hello")
-@RunOnVirtualThread
 @Tag(name = "HelloResource", description = "Resource to test REST verbs")
+@RunOnVirtualThread
 class HelloResource {
 
     @GET

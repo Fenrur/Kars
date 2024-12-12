@@ -43,5 +43,5 @@ class DaoProducer {
     fun requestPartyDao(conf: Configuration) = RequestPartyDao(conf)
 
     @Produces
-    fun userrDao(conf: Configuration) = UserrDao(conf)
+    fun userDao(conf: Configuration) = UserrDao(conf)
 }

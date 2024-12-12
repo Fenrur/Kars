@@ -42,10 +42,14 @@ dependencies {
     implementation 'io.quarkus:quarkus-info'
     implementation 'io.quarkus:quarkus-smallrye-health'
     implementation 'io.quarkus:quarkus-micrometer'
+    implementation 'io.quarkus:quarkus-keycloak-authorization'
+    implementation 'io.quarkus:quarkus-oidc'
+    implementation 'io.quarkiverse.resteasy-problem:quarkus-resteasy-problem:3.14.0'
 
     implementation "org.flywaydb:flyway-database-postgresql:$flywayVersion"
     implementation "org.jooq:jooq:$jooqVersion"
-    implementation 'io.quarkiverse.resteasy-problem:quarkus-resteasy-problem:3.14.0'
+    
+    implementation("org.keycloak:keycloak-admin-client:26.0.3")
 
     jooqCodegen "org.postgresql:postgresql:$pgsqlJdbcVersion"
     jooqCodegen "org.slf4j:slf4j-simple:2.0.16"
