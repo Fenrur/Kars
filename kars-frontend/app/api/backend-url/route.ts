@@ -10,11 +10,5 @@ export async function GET() {
     return NextResponse.json({ url })
   }
 
-  try {
-    const url = await fs.readFile('/mnt/env/BACKEND_URL', 'utf-8')
-    return NextResponse.json({ url })
-  } catch (e) {
-    console.error(e)
-    return NextResponse.json({ error: 'url not found contact an administrator' }, { status: 404 })
-  }
+  return NextResponse.json({ error: 'url not found contact an administrator' }, { status: 404 })
 }
