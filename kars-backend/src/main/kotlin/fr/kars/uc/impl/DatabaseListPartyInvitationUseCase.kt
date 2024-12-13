@@ -42,7 +42,7 @@ class DatabaseListPartyInvitationUseCase(private val ctx: DSLContext) : ListPart
             .limit(pagination.pageSize)
             .fetch()
             .map { (invitedProfileId, partyId, type, price, name, startAt, endAt, maximumPlace, cityId, ownerProfileId, description, partyEventType ) 
-                -> map(invitedProfileId, partyId, type, price, name, startAt, endAt, maximumPlace, cityId, ownerProfileId, description, partyEventType, ) }
+                -> toElement(invitedProfileId, partyId, type, price, name, startAt, endAt, maximumPlace, cityId, ownerProfileId, description, partyEventType, ) }
         
         return PaginatedList(
             items = elements,
@@ -59,7 +59,7 @@ class DatabaseListPartyInvitationUseCase(private val ctx: DSLContext) : ListPart
         }
     }
     
-    fun map(
+    fun toElement(
         invitedProfileId: Int?,
         partyId: Int?,
         type: String?,
