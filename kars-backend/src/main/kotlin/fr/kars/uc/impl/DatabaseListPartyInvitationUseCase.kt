@@ -84,17 +84,17 @@ class DatabaseListPartyInvitationUseCase(private val ctx: DSLContext) : ListPart
         partyEventType!!
         
         return ListPartyInvitationUseCase.Element(
-            partyId,
-            type,
-            price,
-            name,
-            startAt.toInstant(Clock.systemUTC().zone.rules.getOffset(startAt)),
-            endAt?.toInstant(Clock.systemUTC().zone.rules.getOffset(endAt)),
-            maximumPlace,
-            cityId,
-            ownerProfileId,
-            description,
-            partyEventType.toDomain()
+            partyId = partyId,
+            type = type,
+            price = price,
+            name = name,
+            startAt = startAt.toInstant(Clock.systemUTC().zone.rules.getOffset(startAt)),
+            endAt = endAt?.toInstant(Clock.systemUTC().zone.rules.getOffset(endAt)),
+            maximumPlace = maximumPlace,
+            cityId = cityId,
+            ownerPartyProfileId = ownerProfileId,
+            description = description,
+            partyEventType = partyEventType.toDomain()
         )
     }
 }
