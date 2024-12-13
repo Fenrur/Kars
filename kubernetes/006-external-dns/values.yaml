@@ -4,8 +4,8 @@ provider: ovh
 domainFilters:
   - tinnirello-livio.me
 ovh:
-  consumerKey: "2c01c13887e56b54658d8ee8f432c119"
-  applicationKey: "f56e9f9a8798da44"
-  applicationSecret: "d4e78d035d1a581b25b3060a51e56dd9"
+  consumerKey: ""
+  applicationKey: ""
+  applicationSecret: ""
 txtOwnerId: "acme.mycompany.example"
 forceTxtOwnerId: true
