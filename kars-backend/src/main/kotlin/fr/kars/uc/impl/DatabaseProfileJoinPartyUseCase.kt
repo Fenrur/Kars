@@ -19,13 +19,6 @@ class DatabaseProfileJoinPartyUseCase(private val ctx: DSLContext) : ProfileJoin
         profileId: ProfileId,
         partyId: PartyId,
     ): ProfileJoinPartyUseCase.Result = ctx.transactional {
-        val a = field(
-            selectCount()
-                .from(ATTEND_PARTY)
-                .where(ATTEND_PARTY.ATTEND_PROFILE_ID.eq(profileId)
-                    .and(ATTEND_PARTY.PARTY_ID.eq(partyId)))
-        ).`as`("alreadyAttendCount")
-        
         val record = ctx.select(
             PARTY.PARTY_ID,
             PARTY.PARTY_EVENT_TYPE,
