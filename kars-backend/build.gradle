@@ -62,8 +62,8 @@ group 'fr.exemple'
 version System.getenv("PROJECT_VERSION") ?: projectVersion
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_22
+    targetCompatibility = JavaVersion.VERSION_22
 }
 
 test {
@@ -77,12 +77,12 @@ allOpen {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_22
     kotlinOptions.javaParameters = true
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_21
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_22
 }
 
 Provider<PostgresService> dbContainerProvider = project.getGradle()
@@ -180,4 +180,17 @@ abstract class PostgresService implements BuildService<BuildServiceParameters.No
     PostgreSQLContainer getContainer() {
         return container
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ["--enable-preview"]
+    options.release = 22
+}
+
+tasks.withType(Test).configureEach {
+    jvmArgs += ["--enable-preview"]
+}
+
+tasks.named("quarkusDev", io.quarkus.gradle.tasks.QuarkusDev).configure {
+    jvmArgs += "--enable-preview"
 }

@@ -2,14 +2,13 @@ package fr.kars
 
 import fr.kars.jooq.tables.daos.AttendPartyDao
 import fr.kars.jooq.tables.daos.CityDao
-import fr.kars.jooq.tables.daos.EvaluateProfilePartyDao
 import fr.kars.jooq.tables.daos.InvitationPartyDao
 import fr.kars.jooq.tables.daos.PartyDao
 import fr.kars.jooq.tables.daos.PartySubtypeDao
 import fr.kars.jooq.tables.daos.PartySubtypeListDao
 import fr.kars.jooq.tables.daos.ProfileDao
+import fr.kars.jooq.tables.daos.ProfileEvaluatePartyDao
 import fr.kars.jooq.tables.daos.RequestPartyDao
-import fr.kars.jooq.tables.daos.UserrDao
 import jakarta.enterprise.inject.Produces
 import org.jooq.Configuration
 
@@ -22,7 +21,7 @@ class DaoProducer {
     fun cityDao(conf: Configuration) = CityDao(conf)
 
     @Produces
-    fun evaluateProfilePartyDao(conf: Configuration) = EvaluateProfilePartyDao(conf)
+    fun profileEvaluatePartyDao(conf: Configuration) = ProfileEvaluatePartyDao(conf)
 
     @Produces
     fun invitationPartyDao(conf: Configuration) = InvitationPartyDao(conf)
@@ -41,7 +40,4 @@ class DaoProducer {
 
     @Produces
     fun requestPartyDao(conf: Configuration) = RequestPartyDao(conf)
-
-    @Produces
-    fun userDao(conf: Configuration) = UserrDao(conf)
 }

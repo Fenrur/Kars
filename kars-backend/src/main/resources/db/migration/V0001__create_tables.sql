@@ -2,6 +2,8 @@ CREATE TYPE gender AS ENUM ('male', 'female');
 
 CREATE TYPE role AS ENUM ('user', 'admin');
 
+CREATE TYPE party_event_type AS ENUM ('public', 'private');
+
 CREATE TABLE city
 (
     city_id         SERIAL,
@@ -43,27 +45,15 @@ CREATE TABLE party_subtype
     PRIMARY KEY (party_subtype_id)
 );
 
-CREATE TABLE userr
-(
-    user_id         SERIAL,
-    name            VARCHAR(100) NOT NULL,
-    email           VARCHAR(100) NOT NULL,
-    role            role         NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    PRIMARY KEY (user_id),
-    UNIQUE (email)
-);
-
 CREATE TABLE profile
 (
     profile_id SERIAL,
     born_at    DATE    NOT NULL,
     gender     gender  NOT NULL,
-    user_id    INTEGER NOT NULL,
+    user_id    uuid    NOT NULL,
     city_id    INTEGER NOT NULL,
     PRIMARY KEY (profile_id),
     UNIQUE (user_id),
-    FOREIGN KEY (user_id) REFERENCES userr (user_id),
     FOREIGN KEY (city_id) REFERENCES city (city_id)
 );
 
@@ -78,6 +68,8 @@ CREATE TABLE party
     maximum_place    INTEGER                        NOT NULL,
     city_id          INTEGER                        NOT NULL,
     owner_profile_id INTEGER                        NOT NULL,
+    description      VARCHAR(1000),
+    party_event_type party_event_type               NOT NULL,
     PRIMARY KEY (party_id),
     FOREIGN KEY (city_id) REFERENCES city (city_id),
     FOREIGN KEY (owner_profile_id) REFERENCES profile (profile_id)
@@ -93,7 +85,7 @@ CREATE TABLE party_subtype_list
     FOREIGN KEY (party_id) REFERENCES party (party_id)
 );
 
-CREATE TABLE evaluate_profile_party
+CREATE TABLE profile_evaluate_party
 (
     evaluated_profile_id INTEGER,
     evaluator_profile_id INTEGER,
@@ -128,11 +120,11 @@ CREATE TABLE request_party
 
 CREATE TABLE invitation_party
 (
-    profile_id    INTEGER,
-    party_id      INTEGER,
-    comment       VARCHAR(250),
-    invitation_at TIMESTAMP(3) WITHOUT TIME ZONE NOT NULL,
-    PRIMARY KEY (profile_id, party_id),
-    FOREIGN KEY (profile_id) REFERENCES profile (profile_id),
+    invited_profile_id INTEGER,
+    party_id           INTEGER,
+    comment            VARCHAR(250),
+    invitation_at      TIMESTAMP(3) WITHOUT TIME ZONE NOT NULL,
+    PRIMARY KEY (invited_profile_id, party_id),
+    FOREIGN KEY (invited_profile_id) REFERENCES profile (profile_id),
     FOREIGN KEY (party_id) REFERENCES party (party_id)
 );
