@@ -8,10 +8,12 @@ import fr.kars.jooq.tables.references.INVITATION_PARTY
 import fr.kars.jooq.tables.references.PARTY
 import fr.kars.toDomain
 import fr.kars.uc.ListPartyInvitationUseCase
+import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 import java.time.Clock
 import java.time.LocalDateTime
 
+@ApplicationScoped
 class DatabaseListPartyInvitationUseCase(private val ctx: DSLContext) : ListPartyInvitationUseCase {
     
     fun invoke(profileId: ProfileId, pagination: Pagination): PaginatedList<ListPartyInvitationUseCase.Element> {

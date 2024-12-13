@@ -9,10 +9,12 @@ import fr.kars.jooq.tables.references.INVITATION_PARTY
 import fr.kars.jooq.tables.references.PARTY
 import fr.kars.transactional
 import fr.kars.uc.ProfileJoinPartyUseCase
+import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.field
 import org.jooq.impl.DSL.selectCount
 
+@ApplicationScoped
 class DatabaseProfileJoinPartyUseCase(private val ctx: DSLContext) : ProfileJoinPartyUseCase {
 
     override fun invoke(

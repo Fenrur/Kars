@@ -7,8 +7,10 @@ import fr.kars.jooq.tables.daos.PartyDao
 import fr.kars.jooq.tables.references.INVITATION_PARTY
 import fr.kars.transactional
 import fr.kars.uc.InviteProfilePrivatePartyUseCase
+import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 
+@ApplicationScoped
 class DatabaseInviteProfilePrivatePartyUseCase(
     private val ctx: DSLContext,
     private val partyDao: PartyDao,

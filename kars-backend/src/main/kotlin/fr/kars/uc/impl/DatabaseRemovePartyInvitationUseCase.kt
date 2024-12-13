@@ -4,8 +4,10 @@ import fr.kars.PartyId
 import fr.kars.ProfileId
 import fr.kars.jooq.tables.references.INVITATION_PARTY
 import fr.kars.uc.RemovePartyInvitationUseCase
+import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 
+@ApplicationScoped
 class DatabaseRemovePartyInvitationUseCase(private val ctx: DSLContext) : RemovePartyInvitationUseCase {
     
     override fun invoke(partyId: PartyId, invitedProfileId: ProfileId) {

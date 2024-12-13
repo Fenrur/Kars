@@ -7,7 +7,9 @@ import fr.kars.ProfilePartyEvaluationRate
 import fr.kars.jooq.tables.daos.ProfileEvaluatePartyDao
 import fr.kars.jooq.tables.pojos.ProfileEvaluateParty
 import fr.kars.uc.ProfileEvaluatePartyUseCase
+import jakarta.enterprise.context.ApplicationScoped
 
+@ApplicationScoped
 class DatabaseProfileEvaluatePartyUseCase(private val profileEvaluatePartyDao: ProfileEvaluatePartyDao) : ProfileEvaluatePartyUseCase {
 
     override fun invoke(

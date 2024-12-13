@@ -10,11 +10,13 @@ import fr.kars.ProfileId
 import fr.kars.jooq.tables.references.PARTY
 import fr.kars.toJooq
 import fr.kars.uc.CreatePartyUseCase
+import jakarta.enterprise.context.ApplicationScoped
 import org.jooq.DSLContext
 import java.time.Clock
 import java.time.Instant
 import java.time.LocalDateTime
 
+@ApplicationScoped
 class DatabaseCreatePartyUseCase(private val ctx: DSLContext) : CreatePartyUseCase {
     
     class DatabaseCreatePartyUseCaseException(message: String) : Exception(message)
