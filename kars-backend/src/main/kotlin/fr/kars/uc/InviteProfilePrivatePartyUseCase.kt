@@ -9,6 +9,7 @@ interface InviteProfilePrivatePartyUseCase {
     
     object PartyNotFound : Result
     object PartyIsPublic : Result
+    object CannotInviteOwner : Result
     object Success : Result
     
     operator fun invoke(partyId: PartyId, invitedProfileId: ProfileId): Result

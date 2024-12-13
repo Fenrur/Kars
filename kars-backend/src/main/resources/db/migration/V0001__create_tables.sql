@@ -1,7 +1,5 @@
 CREATE TYPE gender AS ENUM ('male', 'female');
 
-CREATE TYPE role AS ENUM ('user', 'admin');
-
 CREATE TYPE party_event_type AS ENUM ('public', 'private');
 
 CREATE TABLE city

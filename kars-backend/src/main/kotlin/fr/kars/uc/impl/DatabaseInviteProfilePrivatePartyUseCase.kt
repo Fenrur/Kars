@@ -26,6 +26,8 @@ class DatabaseInviteProfilePrivatePartyUseCase(
 
         if (party.partyEventType == PartyEventType.public) return@transactional InviteProfilePrivatePartyUseCase.PartyIsPublic
 
+        if (party.ownerProfileId == invitedProfileId) return@transactional InviteProfilePrivatePartyUseCase.CannotInviteOwner
+        
         ctx.insertInto(INVITATION_PARTY, INVITATION_PARTY.PARTY_ID, INVITATION_PARTY.INVITED_PROFILE_ID)
             .values(partyId, invitedProfileId)
             .execute()
